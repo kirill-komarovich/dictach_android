@@ -136,21 +136,21 @@ const styles = StyleSheet.create({
     margin: 8,
     paddingTop: CHANGED_FONT_SIZE,
   },
+  input: {
+    fontSize: FONT_SIZE,
+    paddingHorizontal: 24,
+    paddingVertical: 18,
+  },
   label: {
-    position: 'absolute',
     backgroundColor: colors.background,
     fontSize: FONT_SIZE,
+    position: 'absolute',
   },
   outline: {
+    height: '100%',
     position: 'absolute',
     top: 13,
-    height: '100%',
     width: '100%',
-  },
-  input: {
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    fontSize: FONT_SIZE,
   },
 })
 
