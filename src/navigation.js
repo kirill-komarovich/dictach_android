@@ -25,8 +25,15 @@ export function startApp() {
 
   Navigation.setRoot({
     root: {
-      component: {
-        name: 'dictach.navigation.initializing'
+      stack: {
+        id: 'loader',
+        children: [
+          {
+            component: {
+              name: 'dictach.navigation.initializing',
+            },
+          },
+        ],
       },
     },
   });
@@ -40,7 +47,7 @@ export function startAuthenticationApp() {
         children: [
           {
             component: {
-              name: 'dictach.navigation.signIn'
+              name: 'dictach.navigation.signIn',
             },
           },
         ],
@@ -49,14 +56,14 @@ export function startAuthenticationApp() {
   });
 }
 
-export const goHome = () => Navigation.setRoot({
+export const startHomeApp = () => Navigation.setRoot({
   root: {
     stack: {
-      id: 'App',
+      id: 'application',
       children: [
         {
           component: {
-            name: 'Home',
+            name: 'dictach.navigation.home',
           }
         }
       ],

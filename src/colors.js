@@ -8,6 +8,7 @@ export const hoverInputBorderColor = 'rgba(0, 0, 0, 0.87)';
 
 export const colors = {
   primary: '#3f51b5',
+  primaryText: '#fff',
   inactive: '#757575',
   background: '#fff',
   topBar: '#3f51b5',

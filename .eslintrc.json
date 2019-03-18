@@ -2,16 +2,21 @@
     "env": {
         "es6": true,
         "node": true,
-        "react-native/react-native": true
+        "react-native/react-native": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
+        "plugin:jest/recommended",
         "plugin:react/recommended",
-        "plugin:react-native/all"
+        "plugin:react-native/all",
+        "plugin:react-redux/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "Request": "readonly",
+        "Headers": "readonly"
     },
     "parser": "babel-eslint",
     "parserOptions": {
@@ -22,9 +27,30 @@
         "sourceType": "module"
     },
     "plugins": [
+        "jest",
         "react",
-        "react-native"
+        "react-native",
+        "react-redux"
     ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extentions": [
+                    ".js",
+                    ".jsx",
+                    ".android.jsx"
+                ]
+            }
+        }
+    },
     "rules": {
+        "react-redux/prefer-separate-component-file": [0],
+        "react-native/split-platform-components": [
+            "error",
+            {
+                "androidPathRegex": "\\.android\\.(js|jsx)$",
+                "iosPathRegex": "\\.ios\\.(js|jsx)$"
+            }
+        ]
     }
 }
