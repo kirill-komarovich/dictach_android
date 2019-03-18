@@ -33,14 +33,8 @@
         "react-redux"
     ],
     "settings": {
-        "import/resolver": {
-            "node": {
-                "extentions": [
-                    ".js",
-                    ".jsx",
-                    ".android.jsx"
-                ]
-            }
+        "react": {
+            "version": "detect"
         }
     },
     "rules": {
