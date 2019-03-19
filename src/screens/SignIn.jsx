@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { View, Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { RaisedTextButton } from 'react-native-material-buttons';
-import { colors } from '../colors';
-import OutlinedInput from '../components/outlinedInput';
-import { signInUser } from '../actions/SessionActions';
+import { colors } from '@src/colors';
+import OutlinedInput from '@components/outlinedInput';
+import { signInUser } from '@src/actions/SessionActions';
 
 class SignIn extends React.Component {
   state = {

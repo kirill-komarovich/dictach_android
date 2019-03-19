@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { View, Text, StyleSheet } from 'react-native'
 import { RaisedTextButton } from 'react-native-material-buttons';
-import { signOutUser } from '../actions/SessionActions';
+import { signOutUser } from '@src/actions/SessionActions';
 
 class Home extends React.Component {
   signOut = () => {
