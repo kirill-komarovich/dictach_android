@@ -7,16 +7,6 @@ import { RaisedTextButton } from 'react-native-material-buttons';
 import { signOutUser } from '../actions/SessionActions';
 
 class Home extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        title: {
-          text: 'Home'
-        },
-      }
-    };
-  }
-
   signOut = () => {
     const { actions: { signOutUser } } = this.props;
     signOutUser();

@@ -15,7 +15,7 @@ const topBar = {
 const statusBar = {
   backgroundColor: statusBarColor,
   style: 'dark',
-}
+};
 
 export function startApp() {
   Navigation.setDefaultOptions({
@@ -56,17 +56,19 @@ export function startAuthenticationApp() {
   });
 }
 
-export const startHomeApp = () => Navigation.setRoot({
-  root: {
-    stack: {
-      id: 'application',
-      children: [
-        {
-          component: {
-            name: 'dictach.navigation.home',
-          }
-        }
-      ],
+export function startHomeApp() {
+  Navigation.setRoot({
+    root: {
+      stack: {
+        id: 'application',
+        children: [
+          {
+            component: {
+              name: 'dictach.navigation.home',
+            },
+          },
+        ],
+      }
     }
-  }
-})
+  });
+}

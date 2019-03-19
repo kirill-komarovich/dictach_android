@@ -58,8 +58,9 @@ class OutlinedInput extends React.PureComponent {
       return;
     }
 
-    this.setState({ value });
-    onChangeText && onChangeText(value);
+    this.setState({ value }, () => {
+      onChangeText && onChangeText(value);
+    });
   }
 
   topOffset = () => {
@@ -153,8 +154,7 @@ const styles = StyleSheet.create({
     top: 13,
     width: '100%',
   },
-})
-
+});
 
 OutlinedInput.propTypes = {
   label: PropTypes.string.isRequired,

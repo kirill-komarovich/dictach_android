@@ -12,8 +12,7 @@ export function signInUser(credentials) {
     const response = await sessionApi.signin(credentials)
     if (!response.error) {
       dispatch({ type: types.SIGN_IN_SUCCESS });
-    }
-    else {
+    } else {
       dispatch(signInFailure([response.error]));
     }
   };
