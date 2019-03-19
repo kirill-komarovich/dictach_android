@@ -1,5 +1,5 @@
-import * as types from '../actionTypes/session';
-import SessionApi from '../api/SessionApi';
+import * as types from '@src/actionTypes/session';
+import SessionApi from '@src/api/SessionApi';
 
 export function signInFailure(errors) {
   return {type: types.SIGN_IN_FAILURE, errors}

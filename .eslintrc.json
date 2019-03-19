@@ -7,6 +7,8 @@
     },
     "extends": [
         "eslint:recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
         "plugin:jest/recommended",
         "plugin:react/recommended",
         "plugin:react-native/all",
@@ -27,6 +29,7 @@
         "sourceType": "module"
     },
     "plugins": [
+        "import",
         "jest",
         "react",
         "react-native",
@@ -37,6 +40,10 @@
             "version": "detect"
         },
         "import/resolver": {
+            "babel-module": {
+                "@components": "./src/components/",
+                "@src": "./src"
+            },
             "node": {
                 "extensions": [
                     ".js",

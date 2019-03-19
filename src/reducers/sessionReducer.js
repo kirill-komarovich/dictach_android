@@ -1,8 +1,8 @@
-import * as types from '../actionTypes/session';
+import * as types from '@src/actionTypes/session';
 import initialState from './initialState';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import { persistReducer } from 'redux-persist';
-import { startHomeApp, startAuthenticationApp } from '../navigation';
+import { startHomeApp, startAuthenticationApp } from '@src/navigation';
 
 const sessionPersistConfig = {
   key: 'session',

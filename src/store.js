@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
-import persistedReducer from './reducers/persistedReducer';
 import thunkMiddleware from 'redux-thunk';
 import loggerMiddleware from 'redux-logger';
+import persistedReducer from '@src/reducers/persistedReducer';
 
 const middlewares = [thunkMiddleware];
 if (process.env.NODE_ENV === 'development') {

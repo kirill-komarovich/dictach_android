@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import { topBarColor, statusBarColor } from './colors';
+import { topBarColor, statusBarColor } from '@src/colors';
 import { displayName as appName } from '../app.json';
 
 const topBar = {

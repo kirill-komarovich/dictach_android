@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ProgressBarAndroid, View, StyleSheet } from 'react-native';
-import { startHomeApp, startAuthenticationApp } from '../navigation';
-import { colors } from '../colors';
-import { checkAuthentication } from '../actions/SessionActions';
+import { startHomeApp, startAuthenticationApp } from '@src/navigation';
+import { colors } from '@src/colors';
+import { checkAuthentication } from '@src/actions/SessionActions';
 
 class Initialising extends React.Component {
   async componentDidMount() {
