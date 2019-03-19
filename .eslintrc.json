@@ -1,0 +1,58 @@
+{
+    "env": {
+        "es6": true,
+        "node": true,
+        "react-native/react-native": true,
+        "jest/globals": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:jest/recommended",
+        "plugin:react/recommended",
+        "plugin:react-native/all",
+        "plugin:react-redux/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly",
+        "Request": "readonly",
+        "Headers": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "jest",
+        "react",
+        "react-native",
+        "react-redux"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        }
+    },
+    "rules": {
+        "react-redux/prefer-separate-component-file": [0],
+        "react-native/split-platform-components": [
+            "error",
+            {
+                "androidPathRegex": "\\.android\\.(js|jsx)$",
+                "iosPathRegex": "\\.ios\\.(js|jsx)$"
+            }
+        ]
+    }
+}
