@@ -1,0 +1,38 @@
+import * as types from '@src/actionTypes/dictionaries';
+import DictionariesApi from '@src/api/DictionariesApi';
+
+export function fetchAllDictionaries(page, rowsPerPage, order, direction) {
+  const dictionariesApi = new DictionariesApi();
+  return async function(dispatch) {
+    dispatch({ type: types.FETCH_ALL_DICTIONARIES_BEGIN });
+    const response = await dictionariesApi.fetchAll(page, rowsPerPage, order, direction);
+    if (!response.errors) {
+      dispatch({
+        type: types.FETCH_ALL_DICTIONARIES_SUCCESS,
+        dictionaries: response.dictionaries,
+        pages: response.meta.pages,
+        records: response.meta.records,
+      });
+    } else {
+      dispatch({ type: types.FETCH_ALL_DICTIONARIES_FAILURE });
+    }
+  };
+}
+
+export function refreshAllDictionaries(page, rowsPerPage, order, direction) {
+  const dictionariesApi = new DictionariesApi();
+  return async function(dispatch) {
+    dispatch({ type: types.REFRESH_ALL_DICTIONARIES_BEGIN });
+    const response = await dictionariesApi.fetchAll(page, rowsPerPage, order, direction);
+    if (!response.errors) {
+      dispatch({
+        type: types.REFRESH_ALL_DICTIONARIES_SUCCESS,
+        dictionaries: response.dictionaries,
+        pages: response.meta.pages,
+        records: response.meta.records,
+      });
+    } else {
+      dispatch({ type: types.REFRESH_ALL_DICTIONARIES_FAILURE });
+    }
+  };
+}

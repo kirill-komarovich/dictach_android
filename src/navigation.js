@@ -56,7 +56,7 @@ export function startAuthenticationApp() {
   });
 }
 
-export function startHomeApp() {
+export function startDictionariesApp() {
   Navigation.setRoot({
     root: {
       stack: {
@@ -64,7 +64,7 @@ export function startHomeApp() {
         children: [
           {
             component: {
-              name: 'dictach.navigation.home',
+              name: 'dictach.navigation.dictionaries',
             },
           },
         ],

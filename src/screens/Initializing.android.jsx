@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ProgressBarAndroid, View, StyleSheet } from 'react-native';
-import { startHomeApp, startAuthenticationApp } from '@src/navigation';
-import { colors } from '@src/colors';
+import { View, StyleSheet } from 'react-native';
+import Loader from '@components/loader';
+import { startDictionariesApp, startAuthenticationApp } from '@src/navigation';
 import { checkAuthentication } from '@src/actions/SessionActions';
 
 class Initialising extends React.Component {
@@ -17,7 +17,7 @@ class Initialising extends React.Component {
   redirectToScreen = async () => {
     const { session: { authenticated } } = this.props;
     if (authenticated) {
-      await startHomeApp();
+      await startDictionariesApp();
     } else {
       await startAuthenticationApp();
     }
@@ -26,10 +26,7 @@ class Initialising extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProgressBarAndroid
-          color={colors.primary}
-          styleAttr="LargeInverse"
-        />
+        <Loader styleAttr="LargeInverse" />
       </View>
     )
   }
