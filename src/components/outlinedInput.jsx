@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TextInput, View, Text, StyleSheet, Animated, ViewPropTypes } from 'react-native';
-import { colors } from '../colors';
+import { colors } from '@src/colors';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 const FONT_SIZE = 16;

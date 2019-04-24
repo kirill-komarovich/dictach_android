@@ -2,7 +2,7 @@ import * as types from '@src/actionTypes/session';
 import initialState from './initialState';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import { persistReducer } from 'redux-persist';
-import { startHomeApp, startAuthenticationApp } from '@src/navigation';
+import { startDictionariesApp, startAuthenticationApp } from '@src/navigation';
 
 const sessionPersistConfig = {
   key: 'session',
@@ -19,7 +19,7 @@ function sessionReducer(state = initialState.session, action) {
         loading: true,
       };
     case types.SIGN_IN_SUCCESS:
-      startHomeApp();
+      startDictionariesApp();
       return {
         ...state,
         authenticated: true,

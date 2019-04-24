@@ -17,4 +17,6 @@ export const colors = {
   inputBorder: 'rgba(0, 0, 0, 0.23)',
   activeInputBorder: '#3f51b5',
   inputPlaceholder: '#757575',
+  listItemBorder: '#c5c5c5',
+  listItemTitle: '#000',
 }
