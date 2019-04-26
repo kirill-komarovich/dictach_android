@@ -19,4 +19,6 @@ export const colors = {
   inputPlaceholder: '#757575',
   listItemBorder: '#c5c5c5',
   listItemTitle: '#000',
+  expandableListTitle: '#2a2f43',
+  expandableListTitleBackground: '#edeff2',
 }
