@@ -20,7 +20,7 @@ module.exports = {
           "jest.doMock",
           "jest.dontMock"
         ],
-      }
+      },
     ],
   ],
 }

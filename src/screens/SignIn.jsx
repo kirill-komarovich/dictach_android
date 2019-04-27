@@ -36,7 +36,6 @@ class SignIn extends React.Component {
           <View style={styles.fieldset}>
             <View style={styles.fieldsetContainer}>
               <OutlinedInput
-                style={styles.input}
                 label="Email"
                 autoCapitalize="none"
                 onChangeText={(value) => this.onChangeText('email', value)}
@@ -44,7 +43,6 @@ class SignIn extends React.Component {
                 autoFocus
               />
               <OutlinedInput
-                style={styles.input}
                 label="Password"
                 autoCapitalize="none"
                 secureTextEntry
@@ -55,7 +53,7 @@ class SignIn extends React.Component {
           </View>
           <RaisedTextButton
             style={styles.button}
-            title='Sign In'
+            title="Sign In"
             color={colors.primary}
             titleColor={colors.primaryText}
             onPress={this.handleSubmit}
@@ -84,10 +82,6 @@ const styles = StyleSheet.create({
   fieldsetContainer: {
     flexDirection: 'column',
     flexGrow: 1,
-  },
-  input: {
-    flexGrow: 1,
-    width: 'auto',
   },
   loader: {
     flex: 1,

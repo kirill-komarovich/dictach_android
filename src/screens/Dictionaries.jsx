@@ -6,6 +6,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import ListItem from '@components/listItem';
 import Loader from '@components/loader';
+import FloatingButton from '@components/floatingButton';
 import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
 
 const END_REACHED_THRESHOLD = 0.1;
@@ -59,10 +60,36 @@ class Dictionaries extends React.Component {
     }
   }
 
+  openFormModal = () => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'dictach.modal.dictionaryForm',
+              passProps: {
+                afterSubmit: this.handleRefresh,
+              },
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Add Dictionary',
+                  }
+                }
+              }
+            },
+          },
+        ],
+      },
+    });
+  }
+
   renderListFooter = () => {
     const { dictionaries: { loading } } = this.props;
-    return loading && (
+    return loading ? (
       <Loader style={styles.loader} styleAttr="Normal" />
+    ) : (
+      <View style={styles.footer} />
     )
   }
 
@@ -100,6 +127,7 @@ class Dictionaries extends React.Component {
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={END_REACHED_THRESHOLD}
         />
+        <FloatingButton name="add" onPress={this.openFormModal} />
       </View>
     )
   }
@@ -110,9 +138,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  footer: {
+    marginBottom: 80,
+  },
   loader: {
     marginVertical: 10,
-  }
+  },
 });
 
 Dictionaries.propTypes = {

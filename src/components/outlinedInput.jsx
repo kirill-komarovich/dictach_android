@@ -13,7 +13,7 @@ class OutlinedInput extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    const { value } = this.props;
+    const { value } = props;
 
     this.state = {
       animatedIsFocused: new Animated.Value(value === '' ? 0 : 1),

@@ -1,3 +1,5 @@
+const white = '#fff';
+const black = '#000';
 export const topBarColor = '#3f51b5';
 export const statusBarColor = '#3f51b5';
 export const buttonPrimaryColor = '#3f51b5';
@@ -8,9 +10,9 @@ export const hoverInputBorderColor = 'rgba(0, 0, 0, 0.87)';
 
 export const colors = {
   primary: '#3f51b5',
-  primaryText: '#fff',
+  primaryText: white,
   inactive: '#757575',
-  background: '#fff',
+  background: white,
   topBar: '#3f51b5',
   statusBar: '#3f51b5',
   buttonPrimary: '#3f51b5',
@@ -18,7 +20,11 @@ export const colors = {
   activeInputBorder: '#3f51b5',
   inputPlaceholder: '#757575',
   listItemBorder: '#c5c5c5',
-  listItemTitle: '#000',
   expandableListTitle: '#2a2f43',
   expandableListTitleBackground: '#edeff2',
+  listItemTitle: black,
+  floatButtonBackground: '#D32F2F',
+  floatButtonIcon: white,
+  black,
+  white,
 }

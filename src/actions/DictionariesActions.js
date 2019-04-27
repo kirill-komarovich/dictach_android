@@ -52,3 +52,16 @@ export function fetchDictionary(id) {
     }
   };
 }
+
+export function createDictionary(dictionary) {
+  const dictionariesApi = new DictionariesApi();
+  return async function(dispatch) {
+    dispatch({ type: types.CREATE_DICTIONARY_BEGIN });
+    const response = await dictionariesApi.create(dictionary);
+    if (!response.errors) {
+      dispatch({ type: types.CREATE_DICTIONARY_SUCCESS });
+    } else {
+      dispatch({ type: types.CREATE_DICTIONARY_FAILURE });
+    }
+  };
+}
