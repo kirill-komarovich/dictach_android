@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import session from './sessionReducer';
 import dictionaries from './dictionariesReducer';
+import dictionary from './dictionaryReducer';
+import session from './sessionReducer';
 
 const rootReducer = combineReducers({
-  session,
   dictionaries,
+  dictionary,
+  session,
 });
 
 export default rootReducer;

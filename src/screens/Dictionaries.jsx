@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import ListItem from '@components/listItem';
 import Loader from '@components/loader';
 import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
@@ -65,6 +66,21 @@ class Dictionaries extends React.Component {
     )
   }
 
+  renderListItem = ({ item: { id, title } }) => (
+    <ListItem title={title} onPress={() => this.onItemPress(id)} />
+  )
+
+  onItemPress = (id) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'dictach.navigation.dictionary',
+        passProps: {
+          dictionaryId: id,
+        },
+      },
+    })
+  }
+
   render() {
     const { dictionaries: { all: dictionaries } } = this.props;
     const { refreshing } = this.state;
@@ -76,9 +92,7 @@ class Dictionaries extends React.Component {
       <View style={styles.container}>
         <FlatList
           data={dictionaries}
-          renderItem={({ item: { title } }) => (
-            <ListItem title={title} />
-          )}
+          renderItem={this.renderListItem}
           keyExtractor={({ id }) => id.toString()}
           ListFooterComponent={this.renderListFooter()}
           refreshing={refreshing}
@@ -102,6 +116,7 @@ const styles = StyleSheet.create({
 });
 
 Dictionaries.propTypes = {
+  componentId: PropTypes.string.isRequired,
   dictionaries: PropTypes.shape({
     all: PropTypes.array.isRequired,
     pages: PropTypes.number.isRequired,

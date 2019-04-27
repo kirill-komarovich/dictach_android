@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { colors } from '@src/colors';
 
-function ListItem({ title }) {
+function ListItem({ title, onPress }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        { title }
-      </Text>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          { title }
+        </Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -28,6 +30,11 @@ const styles = StyleSheet.create({
 
 ListItem.propTypes = {
   title: PropTypes.string.isRequired,
+  onPress: PropTypes.func,
 }
+
+ListItem.defaultProps = {
+  onPress: () => null,
+};
 
 export default ListItem;

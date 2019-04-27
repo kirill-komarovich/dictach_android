@@ -1,20 +1,22 @@
+const domain = 'https://dictach.herokuapp.com';
+
 const urls = {
   session: {
-    signin: 'api/users/sign_in',
-    signup: 'api/users/sign_up',
-    signout: 'api/users/sign_out',
-    check: 'api/authentication_checks',
+    signin: `${domain}/api/users/sign_in`,
+    signup: `${domain}/api/users/sign_up`,
+    signout: `${domain}/api/users/sign_out`,
+    check: `${domain}/api/authentication_checks`,
   },
 
-  tags: () => 'api/tags',
-  tag: (id) => `api/tags/${id}`,
+  tags: () => `${domain}/api/tags`,
+  tag: (id) => `${domain}/api/tags/${id}`,
 
   dictionaries(page, rowsPerPage, order, direction) {
-    const url = 'api/dictionaries';
+    const url = `${domain}/api/dictionaries`;
     return this.withQueryParams(url, { page, per_page: rowsPerPage, order, direction });
   },
   dictionary(id) {
-    return `${this.dictionaries}/${id}`;
+    return `${this.dictionaries()}/${id}`;
   },
 
   words(dictionary_id, letter) {
@@ -60,11 +62,9 @@ const headers = {
   },
 };
 
-const domain = 'https://dictach.herokuapp.com/';
 
 export {
   urls,
   methods,
   headers,
-  domain,
 };
