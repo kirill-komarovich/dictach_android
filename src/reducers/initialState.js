@@ -5,6 +5,17 @@ export default {
     records: 0,
     loading: false,
   },
+  dictionary: {
+    id: 0,
+    title: '',
+    language: '',
+    alphabeth: [],
+    tags: [],
+    created_at: '',
+    updated_at: '',
+    loading: false,
+    errors: false,
+  },
   session: {
     errors: null,
     loading: false,

@@ -1,8 +1,8 @@
-import { urls, methods, headers, domain } from './apiUrls';
+import { urls, methods, headers } from './apiUrls';
 
 class SessionApi {
   async signin(credentials) {
-    const request = new Request(domain + urls.session.signin, {
+    const request = new Request(urls.session.signin, {
       method: methods.post,
       headers: new Headers({
         ...headers.contentType.json,
@@ -23,7 +23,7 @@ class SessionApi {
   }
 
   async signout() {
-    const request = new Request(domain + urls.session.signout, {
+    const request = new Request(urls.session.signout, {
       method: methods.delete,
       credentials: 'include',
     });
@@ -38,7 +38,7 @@ class SessionApi {
   }
 
   async checkAuthentication() {
-    const request = new Request(domain + urls.session.check, {
+    const request = new Request(urls.session.check, {
       method: methods.get,
       credentials: 'include',
     });

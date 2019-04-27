@@ -6,6 +6,7 @@ import { View, Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-nati
 import { RaisedTextButton } from 'react-native-material-buttons';
 import { colors } from '@src/colors';
 import OutlinedInput from '@components/outlinedInput';
+import Loader from '@components/loader';
 import { signInUser } from '@src/actions/SessionActions';
 
 class SignIn extends React.Component {
@@ -23,8 +24,13 @@ class SignIn extends React.Component {
   }
 
   render() {
+    const { loading } = this.props;
     const { email, password } = this.state;
-    return (
+    return loading ? (
+      <View style={styles.loader}>
+        <Loader styleAttr="Large" />
+      </View>
+    ) : (
       <TouchableWithoutFeedback style={styles.touchable} onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.fieldset}>
@@ -83,12 +89,17 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: 'auto',
   },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   touchable: {
     flex: 1,
   }
 })
 
 SignIn.propTypes = {
+  loading: PropTypes.bool.isRequired,
   actions: PropTypes.shape({
     signInUser: PropTypes.func.isRequired,
   }).isRequired,
@@ -100,4 +111,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(SignIn);
+function mapStateToProps({ session: { loading } }) {
+  return {
+    loading,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

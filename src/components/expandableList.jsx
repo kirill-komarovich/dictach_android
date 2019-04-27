@@ -1,55 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, TouchableHighlight, Animated } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Animated, Easing } from 'react-native';
 import { colors } from '@src/colors';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
-const EXPANDABLE_DEFAULT_HEIGHT = 39;
+const ANIMATION_DURATION = 100;
 
 class ExpandableList extends React.PureComponent {
   state = {
-    expanded: true,
-    animationHeight: new Animated.Value(EXPANDABLE_DEFAULT_HEIGHT),
+    expanded: false,
+    animationHeight: new Animated.Value(0),
+    maxHeight: 0,
   };
+
+  componentDidUpdate() {
+    const { expanded, animationHeight } = this.state;
+
+    Animated.timing(animationHeight, {
+      toValue: expanded ? 1 : 0,
+      duration: ANIMATION_DURATION,
+      easing: Easing.linear,
+    }).start();
+  }
 
   setMaxHeight = ({ nativeEvent: { layout: { height } } }) => {
     this.setState({ maxHeight: height });
   }
 
-  setMinHeight = ({ nativeEvent: { layout: { height } } }) => {
-    this.setState({ minHeight: height });
+  toggleExpanded = () => {
+    this.setState(({ expanded }) => ({ expanded: !expanded }));
   }
 
-  toggle = () => {
-    const { expanded, maxHeight, minHeight, animationHeight } = this.state;
-    const initialValue = expanded ? maxHeight + minHeight : minHeight
-    const finalValue = expanded ? minHeight : maxHeight + minHeight;
+  expandedContainerStyle = () => {
+    const { animationHeight, expanded } = this.state;
+    return {
+      marginVertical: animationHeight.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 20],
+      }),
+      evaluating: expanded ? 8 : 0,
+    };
+  }
 
-    this.setState(({ expanded }) => ({ expanded: !expanded }));
-
-    animationHeight.setValue(initialValue); 
-    Animated.spring( 
-      animationHeight,
-      { toValue: finalValue },
-    ).start(); 
+  expandedBodyStyle = () => {
+    const { animationHeight, maxHeight } = this.state;
+    return {
+      height: animationHeight.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, maxHeight],
+      }),
+    };
   }
 
   render() {
       const { children, title } = this.props;
-      const { animationHeight } = this.state;
-      const expandableStyle = { height: animationHeight };
-      return ( 
-        <AnimatedView style={[styles.container, expandableStyle]}>
-          <View style={styles.titleContainer} onLayout={this.setMinHeight}>
-            <TouchableHighlight style={styles.button} onPress={this.toggle} underlayColor="#f1f1f1">
+      return (
+        <AnimatedView style={[styles.container, this.expandedContainerStyle()]}>
+          <View style={styles.titleContainer}>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.toggleExpanded}
+              underlayColor="transparent"
+            >
               <Text style={styles.title}>
                 { title }
               </Text>
             </TouchableHighlight>
           </View>
-          <View style={styles.body} onLayout={this.setMaxHeight}>
-            { children }
-          </View>
+          <AnimatedView style={this.expandedBodyStyle()}>
+            <View style={styles.body} onLayout={this.setMaxHeight}>
+              { children }
+            </View>
+          </AnimatedView>
         </AnimatedView>
       );
     }
@@ -57,24 +79,25 @@ class ExpandableList extends React.PureComponent {
 
 const styles = StyleSheet.create({
   body: {
-    padding: 10,
-    paddingTop: 0,
+    minHeight: 0,
+    padding: 20,
   },
   button: {
     flex: 1,
   },
   container: {
     backgroundColor: colors.background,
-    marginBottom: 2,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 2,
+    borderColor: colors.listItemBorder,
+    borderRadius: 2,
+    borderWidth: StyleSheet.hairlineWidth,
+    elevation: 2,
+    marginHorizontal: 5,
     overflow: 'hidden',
   },
   title: {
-    backgroundColor: colors.expandableListTitleBackground,
+    backgroundColor: colors.background,
     color: colors.expandableListTitle,
-    fontWeight: 'bold',
+    fontSize: 18,
     padding: 10,
   },
   titleContainer: {

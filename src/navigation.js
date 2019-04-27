@@ -10,6 +10,9 @@ const topBar = {
   background: {
     color: topBarColor,
   },
+  backButton: {
+    color: 'white',
+  },
 };
 
 const statusBar = {
@@ -17,10 +20,15 @@ const statusBar = {
   style: 'dark',
 };
 
+const layout = {
+  orientation: ['portrait'],
+};
+
 export function startApp() {
   Navigation.setDefaultOptions({
     topBar,
     statusBar,
+    layout,
   });
 
   Navigation.setRoot({
