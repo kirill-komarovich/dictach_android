@@ -3,6 +3,7 @@ import Initializing from './Initializing';
 import SignIn from './SignIn';
 import Dictionaries from './Dictionaries';
 import Dictionary from './Dictionary';
+import DictionaryForm from './DictionaryForm';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponentWithRedux(
@@ -14,6 +15,12 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponentWithRedux(
     'dictach.navigation.dictionaries',
     () => Dictionaries,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'dictach.modal.dictionaryForm',
+    () => DictionaryForm,
     Provider,
     store,
   );
