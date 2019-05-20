@@ -67,15 +67,41 @@ export function startAuthenticationApp() {
 export function startDictionariesApp() {
   Navigation.setRoot({
     root: {
-      stack: {
-        id: 'application',
-        children: [
-          {
-            component: {
-              name: 'dictach.navigation.dictionaries',
-            },
-          },
-        ],
+      sideMenu: {
+        left: {
+          component: {
+            name: 'dictach.navigation.sideMenu',
+            passProps: {
+              optionTitles: 
+              [
+                {
+                  id: 1,
+                  title: 'OPTION1'
+                }, 
+                {
+                  id: 2,
+                  title: 'OPTION2', 
+                },
+                {
+                  id: 3,
+                  title: 'OPTION3',
+                },
+              ]
+            }
+          }
+        },
+        center: {
+          stack: {
+            id: 'application',
+            children: [
+              {
+                component: {
+                  name: 'dictach.navigation.dictionaries',
+                },
+              },
+            ],
+          }
+        },
       }
     }
   });
