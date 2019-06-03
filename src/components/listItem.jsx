@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { colors } from '@src/colors';
 
-function ListItem({ title, onPress }) {
+function ListItem({ title, onPress, style }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
-        <Text style={styles.title}>
+      <View style={[styles.container, style]}>
+      <Text style={styles.title}>
           { title }
         </Text>
       </View>
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 ListItem.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func,
+  style: PropTypes.any,
 }
 
 ListItem.defaultProps = {

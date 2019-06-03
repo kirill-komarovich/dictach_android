@@ -23,6 +23,7 @@ export const colors = {
   expandableListTitle: '#2a2f43',
   expandableListTitleBackground: '#edeff2',
   listItemTitle: black,
+  selectedListItem: '#99b5ff',
   floatButtonBackground: '#D32F2F',
   floatButtonIcon: white,
   black,
