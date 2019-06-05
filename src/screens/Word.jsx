@@ -8,12 +8,52 @@ import Loader from '@components/loader';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
 import Description from '@components/description';
-import { fetchWord } from '@src/actions/WordsActions';
+import { fetchWord, destroyWord } from '@src/actions/WordsActions';
+import { fetchDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
 
+const RIGHT_BUTTONS_OPTIONS = {
+  rightButtonColor: colors.white,
+  rightButtons: [
+    {
+      id: 'delete',
+      text: 'Delete',
+      showAsAction: 'never',
+    },
+    {
+      id: 'edit',
+      text: 'Edit',
+      showAsAction: 'never',
+    },
+  ],
+};
+
 class Word extends React.Component {
-  state = {
-    refreshing: false,
+  static options() {
+    return {
+      topBar: RIGHT_BUTTONS_OPTIONS,
+    }
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      refreshing: false,
+    };
+
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    switch(buttonId) {
+      case 'delete':
+        this.handleDelete();
+        break;
+      case 'edit':
+        this.handleEdit();
+        break;
+    }
   }
 
   componentDidMount() {
@@ -40,6 +80,20 @@ class Word extends React.Component {
     fetchWord(dictionaryId, wordId).then(callback);
   }
 
+  handleDelete = () => {
+    const {
+      componentId,
+      dictionaryId,
+      wordId,
+      actions: { destroyWord, fetchDictionary }
+    } = this.props;
+
+    destroyWord(dictionaryId, wordId).then(() => {
+      fetchDictionary(dictionaryId);
+      Navigation.pop(componentId);
+    });
+  }
+
   renderListItem = ({ item, index }) => {
     return ( <Description index={index} {...item} />)
   }
@@ -47,6 +101,7 @@ class Word extends React.Component {
   render() {
     const { loading, word: { descriptions } } = this.props;
     const { refreshing } = this.state;
+
     return loading ? (
       <View style={styles.loader}>
         <Loader styleAttr="Large" />
@@ -114,7 +169,7 @@ function mapStateToProps( { word: { loading, ...word }, dictionary: { id, title 
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchWord }, dispatch)
+    actions: bindActionCreators({ fetchWord, destroyWord, fetchDictionary }, dispatch)
   };
 }
 

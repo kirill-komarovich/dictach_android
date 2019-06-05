@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react": "16.6.3",
-    "react-native": "0.58.3",
+    "react": "16.8.6",
+    "react-native": "0.59.9",
     "react-native-intl": "^1.0.0",
     "react-native-navigation": "^2.13.1",
     "react-native-paper": "^2.16.0",

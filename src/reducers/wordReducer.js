@@ -6,6 +6,7 @@ function wordReducer(state = initialState.word, action) {
   case types.CREATE_WORD_BEGIN:
   case types.FETCH_WORD_BEGIN:
   case types.UPDATE_WORD_BEGIN:
+  case types.DESTROY_WORD_BEGIN:
     return {
       ...state,
       errors: false,
@@ -25,6 +26,7 @@ function wordReducer(state = initialState.word, action) {
     };
   case types.FETCH_WORD_FAILURE:
   case types.CREATE_WORD_FAILURE:
+  case types.DESTROY_WORD_FAILURE:
   case types.UPDATE_WORD_FAILURE:
     return {
       ...state,

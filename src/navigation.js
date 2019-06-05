@@ -13,6 +13,7 @@ const topBar = {
   backButton: {
     color: 'white',
   },
+  elevation: 0,
 };
 
 const statusBar = {

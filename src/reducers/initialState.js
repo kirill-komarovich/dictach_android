@@ -28,6 +28,7 @@ export default {
   word: {
     id: 0,
     title: '',
+    descriptions: [],
     loading: false,
     errors: false,
   },

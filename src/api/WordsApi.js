@@ -87,6 +87,25 @@ class WordsApi {
       return error;
     }
   }
+
+  async destroy(dictionaryId, id ) {
+    const request = new Request(urls.word(dictionaryId, id), {
+      method: methods.delete,
+      credentials: 'include',
+      headers: new Headers({
+        ...headers.accept.json,
+      }),
+    });
+
+    try {
+      const response = await fetch(request);
+      return response.json();
+    }
+
+    catch (error) {
+      return error;
+    }
+  }
 }
 
 export default WordsApi;
