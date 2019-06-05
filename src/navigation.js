@@ -72,15 +72,15 @@ export function startDictionariesApp() {
           component: {
             name: 'dictach.navigation.sideMenu',
             passProps: {
-              optionTitles: 
+              optionTitles:
               [
                 {
                   id: 1,
                   title: 'OPTION1'
-                }, 
+                },
                 {
                   id: 2,
-                  title: 'OPTION2', 
+                  title: 'OPTION2',
                 },
                 {
                   id: 3,
@@ -104,5 +104,21 @@ export function startDictionariesApp() {
         },
       }
     }
+  });
+}
+
+export const openModal = (name, options = {}, props = {}) => {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name,
+            passProps: props,
+            options,
+          },
+        },
+      ],
+    },
   });
 }

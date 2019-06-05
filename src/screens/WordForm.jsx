@@ -48,6 +48,7 @@ class WordForm extends React.Component {
     const word = { title, descriptions_attributes: descriptions };
     createWord(dictionaryId, word).then(() => {
       const { errors, afterSubmit } = this.props;
+      Keyboard.dismiss();
       if (!errors) {
         afterSubmit();
         this.onCancel();

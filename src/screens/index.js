@@ -6,6 +6,7 @@ import SignIn from './SignIn';
 import Dictionaries from './Dictionaries';
 import Dictionary from './Dictionary';
 import DictionaryForm from './DictionaryForm';
+import Word from './Word';
 import WordForm from './WordForm';
 import SideMenu from './SideMenu';
 
@@ -37,6 +38,11 @@ export function registerScreens(store, Provider) {
     'dictach.modal.dictionaryForm',
     () => withProviders(Provider, store)(DictionaryForm),
     () => DictionaryForm,
+  );
+  Navigation.registerComponent(
+    'dictach.navigation.word',
+    () => withProviders(Provider, store)(Word),
+    () => Word,
   );
   Navigation.registerComponent(
     'dictach.modal.wordForm',

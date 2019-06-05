@@ -10,6 +10,7 @@ import ListFooter from '@components/listFooter';
 import Loader from '@components/loader';
 import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
+import { openModal } from '@src/navigation';
 
 const END_REACHED_THRESHOLD = 0.1;
 
@@ -63,27 +64,16 @@ class Dictionaries extends React.Component {
   }
 
   openFormModal = () => {
-    Navigation.showModal({
-      stack: {
-        children: [
-          {
-            component: {
-              name: 'dictach.modal.dictionaryForm',
-              passProps: {
-                afterSubmit: this.handleRefresh,
-              },
-              options: {
-                topBar: {
-                  title: {
-                    text: 'Add Dictionary',
-                  }
-                }
-              }
-            },
-          },
-        ],
+    openModal(
+      'dictach.modal.dictionaryForm', {
+      topBar: {
+          title: {
+            text: 'Add Dictionary',
+          }
+        }
       },
-    });
+      { afterSubmit: this.handleRefresh, },
+    )
   }
 
   renderListItem = ({ item: { id, title } }) => (

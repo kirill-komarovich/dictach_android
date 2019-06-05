@@ -11,6 +11,7 @@ import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
 import { fetchDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
+import { openModal } from '@src/navigation';
 
 class Dictionary extends React.Component {
   state = {
@@ -43,34 +44,32 @@ class Dictionary extends React.Component {
 
   openFormModal = () => {
     const { dictionaryId, dictionary: { language } } = this.props;
-    Navigation.showModal({
-      stack: {
-        children: [
-          {
-            component: {
-              name: 'dictach.modal.wordForm',
-              passProps: {
-                dictionaryId,
-                language,
-                afterSubmit: this.onRefresh,
-              },
-              options: {
-                topBar: {
-                  title: {
-                    text: 'Add Word',
-                  }
-                }
-              }
-            },
-          },
-        ],
+
+    openModal(
+      'dictach.modal.wordForm',
+      {
+        topBar: {
+          title: {
+            text: 'Add Word',
+          }
+        }
       },
-    });
+      {
+        dictionaryId,
+        language,
+        afterSubmit: this.onRefresh,
+      },
+    );
   }
 
   renderListItem = ({ item: letter }) => {
-    const { dictionaryId } = this.props;
-    return (<WordsList key={letter} letter={letter} dictionaryId={dictionaryId} />)
+    const { componentId } = this.props;
+    return (
+      <WordsList
+        key={letter}
+        letter={letter}
+        componentId={componentId}
+      />)
   }
 
   render() {

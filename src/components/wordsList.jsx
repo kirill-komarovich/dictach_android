@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View, Text, RefreshControl, FlatList } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Loader from '@components/loader';
 import { List } from 'react-native-paper';
@@ -37,6 +37,18 @@ class WordsList extends React.Component {
     this.setState(({ expanded }) => ({ expanded: !expanded }));
   }
 
+  onItemPress = (id) => () => {
+    const { componentId } = this.props;
+    Navigation.push(componentId, {
+      component: {
+        name: 'dictach.navigation.word',
+        passProps: {
+          wordId: id,
+        },
+      },
+    })
+  }
+
   render() {
     const { words, letter } = this.props;
     const { expanded, loading, loaded } = this.state;
@@ -53,7 +65,7 @@ class WordsList extends React.Component {
             expanded && !loaded || loading ? (
               <Loader styleAttr="Horizontal" />
             ) : words.map(({ id, title }) => (
-              <List.Item key={id} title={title} />
+              <List.Item key={id} title={title} onPress={this.onItemPress(id)} />
             ))
           }
         </List.Accordion>
@@ -75,9 +87,10 @@ const styles = StyleSheet.create({
 WordsList.propTypes = {
 };
 
-function mapStateToProps( { words }, { letter }) {
+function mapStateToProps( { words, dictionary: { id } }, { letter }) {
   return {
     words: words[letter] || [],
+    dictionaryId: id,
   };
 }
 

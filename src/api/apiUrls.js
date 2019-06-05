@@ -27,7 +27,7 @@ const urls = {
     return this.withQueryParams(url, { letter })
   },
   word(dictionary_id, id) {
-    return `${this.dictionary(dictionary_id)}/word/${id}`
+    return `${this.dictionary(dictionary_id)}/words/${id}`
   },
 
   withQueryParams(originUrl, params) {

@@ -24,6 +24,7 @@ const DescriptionForm = ({
           autoCapitalize="none"
           onChangeText={onChangeField('body')}
           value={body}
+          multiline
         />
         <OutlinedSelect
           label="Part of speech"
