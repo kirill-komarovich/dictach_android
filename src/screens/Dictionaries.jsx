@@ -8,7 +8,7 @@ import { List, FAB } from 'react-native-paper';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
 import Loader from '@components/loader';
-import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
+import { fetchAllDictionaries, refreshAllDictionaries, createDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
 import { openModal } from '@src/navigation';
 
@@ -64,6 +64,7 @@ class Dictionaries extends React.Component {
   }
 
   openFormModal = () => {
+    const { actions: { createDictionary } } = this.props;
     openModal(
       'dictach.modal.dictionaryForm', {
       topBar: {
@@ -72,7 +73,10 @@ class Dictionaries extends React.Component {
           }
         }
       },
-      { afterSubmit: this.handleRefresh, },
+      {
+        afterSubmit: this.handleRefresh,
+        onSubmit: createDictionary,
+      },
     )
   }
 
@@ -87,6 +91,7 @@ class Dictionaries extends React.Component {
         passProps: {
           dictionaryId: id,
           onDeleteCallback: this.handleRefresh,
+          onUpdateCallback: this.handleRefresh,
         },
       },
     })
@@ -157,7 +162,7 @@ function mapStateToProps({ dictionaries: { all, pages, records, loading } }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchAllDictionaries, refreshAllDictionaries }, dispatch)
+    actions: bindActionCreators({ fetchAllDictionaries, refreshAllDictionaries, createDictionary }, dispatch)
   };
 }
 

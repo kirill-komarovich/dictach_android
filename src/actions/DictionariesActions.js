@@ -66,6 +66,20 @@ export function createDictionary(dictionary) {
   };
 }
 
+export function updateDictionary(id, dictionary) {
+  const dictionariesApi = new DictionariesApi();
+  return async function(dispatch) {
+    dispatch({ type: types.UPDATE_DICTIONARY_BEGIN });
+    const response = await dictionariesApi.update(id, dictionary);
+    if (!response.errors) {
+      dispatch({ type: types.UPDATE_DICTIONARY_SUCCESS, dictionary: response });
+    } else {
+      dispatch({ type: types.UPDATE_DICTIONARY_FAILURE });
+    }
+  };
+}
+
+
 export function destroyDictionary(id) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {

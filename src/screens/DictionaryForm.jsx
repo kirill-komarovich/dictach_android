@@ -35,9 +35,9 @@ class DictionaryForm extends React.Component {
   }
 
   onSubmit = () => {
-    const { actions: { createDictionary } } = this.props;
+    const { onSubmit } = this.props;
     const { title, language } = this.state;
-    createDictionary({ title, language }).then(() => {
+    onSubmit({ title, language }).then(() => {
       const { errors, afterSubmit } = this.props;
       if (!errors) {
         afterSubmit();
@@ -165,12 +165,6 @@ DictionaryForm.defaultProps = {
   afterSubmit: () => null,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({ createDictionary }, dispatch)
-  };
-}
-
 function mapStateToProps({ dictionary: { errors, loading } }) {
   return {
     errors,
@@ -178,4 +172,4 @@ function mapStateToProps({ dictionary: { errors, loading } }) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DictionaryForm);
+export default connect(mapStateToProps)(DictionaryForm);

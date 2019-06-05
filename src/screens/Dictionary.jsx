@@ -9,7 +9,7 @@ import Loader from '@components/loader';
 import WordsList from '@components/wordsList';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
-import { fetchDictionary, destroyDictionary } from '@src/actions/DictionariesActions';
+import { fetchDictionary, destroyDictionary, updateDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
 import { openModal } from '@src/navigation';
 import { DEFAULT_RIGHT_BUTTONS_OPTIONS } from '@src/constants';
@@ -42,22 +42,29 @@ class Dictionary extends React.Component {
     }
   }
 
+  updateNavigationTitle = () => {
+    const { componentId, dictionary: { title } } = this.props;
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        title: {
+          text: title,
+        },
+      },
+    })
+  }
+
   componentDidMount() {
     this.fetchDictionary(() => {
-      const { componentId, dictionary: { title } } = this.props;
-      Navigation.mergeOptions(componentId, {
-        topBar: {
-          title: {
-            text: title,
-          },
-        },
-      })
+      this.updateNavigationTitle();
     });
   }
 
-  onRefresh = () => {
+  onRefresh = (callback = () => null) => {
     this.setState({ refreshing: true }, () => {
-      this.fetchDictionary(() => this.setState({ refreshing: false }));
+      this.fetchDictionary(() => {
+        callback();
+        this.setState({ refreshing: false })
+      });
     })
   }
 
@@ -84,6 +91,31 @@ class Dictionary extends React.Component {
         afterSubmit: this.onRefresh,
       },
     );
+  }
+
+  handleAfterUpdate = () => {
+    const { onUpdateCallback } = this.props;
+    onUpdateCallback();
+    this.onRefresh(this.updateNavigationTitle)
+  }
+
+  handleEdit = () => {
+    const { dictionary: { id, title }, actions: { updateDictionary } } = this.props;
+    openModal(
+      'dictach.modal.dictionaryForm', {
+        topBar: {
+          title: {
+            text: `Edit ${title}`,
+          }
+        }
+      },
+      {
+        title,
+        edit: true,
+        afterSubmit: this.handleAfterUpdate,
+        onSubmit: (dictionary) => updateDictionary(id, dictionary),
+      },
+    )
   }
 
   handleDelete = () => {
@@ -187,7 +219,7 @@ function mapStateToProps( { dictionary: { loading, ...dictionary} }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchDictionary, destroyDictionary }, dispatch)
+    actions: bindActionCreators({ fetchDictionary, destroyDictionary, updateDictionary }, dispatch)
   };
 }
 
