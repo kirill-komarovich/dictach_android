@@ -5,26 +5,21 @@ import { bindActionCreators } from 'redux';
 import {
   View,
   StyleSheet,
-  Picker,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { TextInput, Button } from 'react-native-paper';
-import OutlinedSelect from '@components/outlinedSelect';
 import Loader from '@components/loader';
-import { createDictionary } from '@src/actions/DictionariesActions';
+import { createWord } from '@src/actions/WordsActions';
 import { colors } from '@src/colors';
 
-const LANGUAGES = ['en', 'ru'];
-
-class DictionaryForm extends React.Component {
+class WordForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       title: props.title,
-      language: props.language,
     }
   }
 
@@ -34,9 +29,10 @@ class DictionaryForm extends React.Component {
   }
 
   onSubmit = () => {
-    const { actions: { createDictionary } } = this.props;
-    const { title, language } = this.state;
-    createDictionary({ title, language }).then(() => {
+    const { dictionaryId, actions: { createWord } } = this.props;
+    const { title } = this.state;
+
+    createWord(dictionaryId, { title }).then(() => {
       const { errors, afterSubmit } = this.props;
       if (!errors) {
         afterSubmit();
@@ -48,8 +44,9 @@ class DictionaryForm extends React.Component {
   onChangeField = key => value => this.setState({ [key]: value })
 
   render() {
-    const { edit, loading } = this.props;
-    const { title, language } = this.state;
+    const { loading } = this.props;
+    const { title } = this.state;
+
     return loading ? (
       <View style={styles.loader}>
         <Loader styleAttr="Large" />
@@ -68,22 +65,6 @@ class DictionaryForm extends React.Component {
                 value={title}
                 autoFocus
               />
-              {
-                !edit && (
-                  <OutlinedSelect
-                    label="Language"
-                    selectedValue={language}
-                    style={styles.picker}
-                    onValueChange={this.onChangeField('language')}
-                  >
-                    {
-                      LANGUAGES.map((language) => (
-                        <Picker.Item key={language} label={language} value={language} />
-                      ))
-                    }
-                  </OutlinedSelect>
-                )
-              }
             </View>
           </View>
           <View style={styles.buttons}>
@@ -144,37 +125,35 @@ const styles = StyleSheet.create({
   },
 })
 
-DictionaryForm.propTypes = {
+WordForm.propTypes = {
   componentId: PropTypes.string.isRequired,
   title: PropTypes.string,
-  language: PropTypes.oneOf(LANGUAGES),
   edit: PropTypes.bool,
   errors: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   afterSubmit: PropTypes.func,
   actions: PropTypes.shape({
-    createDictionary: PropTypes.func.isRequired,
+    createWord: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-DictionaryForm.defaultProps = {
+WordForm.defaultProps = {
   title: '',
-  language: 'en',
   edit: false,
   afterSubmit: () => null,
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ createDictionary }, dispatch)
+    actions: bindActionCreators({ createWord }, dispatch)
   };
 }
 
-function mapStateToProps({ dictionary: { errors, loading } }) {
+function mapStateToProps({ word: { errors, loading } }) {
   return {
     errors,
     loading,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DictionaryForm);
+export default connect(mapStateToProps, mapDispatchToProps)(WordForm);

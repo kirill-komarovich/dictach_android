@@ -6,6 +6,7 @@ import SignIn from './SignIn';
 import Dictionaries from './Dictionaries';
 import Dictionary from './Dictionary';
 import DictionaryForm from './DictionaryForm';
+import WordForm from './WordForm';
 import SideMenu from './SideMenu';
 
 const withProviders = (Provider, store) => Component => {
@@ -36,6 +37,11 @@ export function registerScreens(store, Provider) {
     'dictach.modal.dictionaryForm',
     () => withProviders(Provider, store)(DictionaryForm),
     () => DictionaryForm,
+  );
+  Navigation.registerComponent(
+    'dictach.modal.wordForm',
+    () => withProviders(Provider, store)(WordForm),
+    () => WordForm,
   );
   Navigation.registerComponent(
     'dictach.navigation.initializing',

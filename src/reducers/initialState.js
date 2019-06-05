@@ -25,4 +25,10 @@ export default {
     loading: false,
     errors: null,
   },
+  word: {
+    id: 0,
+    title: '',
+    loading: false,
+    errors: false,
+  },
 }

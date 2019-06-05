@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text, RefreshControl, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { List } from 'react-native-paper';
+import { FAB } from 'react-native-paper';
 import Loader from '@components/loader';
 import WordsList from '@components/wordsList';
 import { fetchDictionary } from '@src/actions/DictionariesActions';
@@ -39,6 +39,32 @@ class Dictionary extends React.Component {
     fetchDictionary(dictionaryId).then(callback);
   }
 
+  openFormModal = () => {
+    const { dictionaryId } = this.props;
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'dictach.modal.wordForm',
+              passProps: {
+                dictionaryId,
+                afterSubmit: this.onRefresh,
+              },
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Add Word',
+                  }
+                }
+              }
+            },
+          },
+        ],
+      },
+    });
+  }
+
   renderListItem = ({ item: letter }) => {
     const { dictionaryId } = this.props;
     return (<WordsList key={letter} letter={letter} dictionaryId={dictionaryId} />)
@@ -59,7 +85,14 @@ class Dictionary extends React.Component {
           data={alphabeth}
           renderItem={this.renderListItem}
           keyExtractor={(letter) => letter}
+          ListEmptyComponent={
+            <View>
+              <Text>You don`t have any words yet</Text>
+            </View>
+          }
+          ListFooterComponent={<View style={styles.footer} />}
         />
+        <FAB style={styles.fab} icon="add" onPress={this.openFormModal} />
       </RefreshControl>
     );
   }
@@ -70,6 +103,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
     justifyContent: 'flex-start',
+  },
+  fab: {
+    backgroundColor: colors.floatButtonBackground,
+    bottom: 10,
+    position: 'absolute',
+    right: 20,
+  },
+  footer: {
+    marginBottom: 80,
   },
   language: {
     color: colors.black,
