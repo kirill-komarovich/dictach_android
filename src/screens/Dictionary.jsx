@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View, Text, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text, RefreshControl, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { List } from 'react-native-paper';
 import Loader from '@components/loader';
-import ExpandableList from '@components/expandableList';
+import WordsList from '@components/wordsList';
 import { fetchDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
 
@@ -38,6 +39,11 @@ class Dictionary extends React.Component {
     fetchDictionary(dictionaryId).then(callback);
   }
 
+  renderListItem = ({ item: letter }) => {
+    const { dictionaryId } = this.props;
+    return (<WordsList key={letter} letter={letter} dictionaryId={dictionaryId} />)
+  }
+
   render() {
     const { loading, dictionary: { alphabeth, language } } = this.props;
     const { refreshing } = this.state;
@@ -48,13 +54,12 @@ class Dictionary extends React.Component {
     ) : (
       <RefreshControl style={styles.container} refreshing={refreshing} onRefresh={this.onRefresh}>
         <Text style={styles.language}>Language: { language }</Text>
-        {
-          alphabeth.map((letter) => (
-            <ExpandableList key={letter} title={letter}>
-              <Text>Words</Text>
-            </ExpandableList>
-          ))
-        }
+        <Text>Words</Text>
+        <FlatList
+          data={alphabeth}
+          renderItem={this.renderListItem}
+          keyExtractor={(letter) => letter}
+        />
       </RefreshControl>
     );
   }

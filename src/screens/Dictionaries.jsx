@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import ListItem from '@components/listItem';
+import { List, FAB } from 'react-native-paper';
 import Loader from '@components/loader';
-import FloatingButton from '@components/floatingButton';
 import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
+import { colors } from '@src/colors';
 
 const END_REACHED_THRESHOLD = 0.1;
 
@@ -94,10 +94,10 @@ class Dictionaries extends React.Component {
   }
 
   renderListItem = ({ item: { id, title } }) => (
-    <ListItem title={title} onPress={() => this.onItemPress(id)} />
+    <List.Item title={title} onPress={this.onItemPress(id)} />
   )
 
-  onItemPress = (id) => {
+  onItemPress = (id) => () => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'dictach.navigation.dictionary',
@@ -127,7 +127,7 @@ class Dictionaries extends React.Component {
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={END_REACHED_THRESHOLD}
         />
-        <FloatingButton name="add" onPress={this.openFormModal} />
+        <FAB style={styles.fab} icon="add" onPress={this.openFormModal} />
       </View>
     )
   }
@@ -137,6 +137,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  fab: {
+    backgroundColor: colors.floatButtonBackground,
+    bottom: 10,
+    position: 'absolute',
+    right: 20,
   },
   footer: {
     marginBottom: 80,

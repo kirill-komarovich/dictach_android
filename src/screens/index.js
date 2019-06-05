@@ -1,4 +1,6 @@
+import React from 'react';
 import { Navigation } from 'react-native-navigation';
+import { Provider as PaperProvider } from 'react-native-paper';
 import Initializing from './Initializing';
 import SignIn from './SignIn';
 import Dictionaries from './Dictionaries';
@@ -6,41 +8,48 @@ import Dictionary from './Dictionary';
 import DictionaryForm from './DictionaryForm';
 import SideMenu from './SideMenu';
 
+const withProviders = (Provider, store) => Component => {
+  const ComponentWithPropviders = props => (
+    <Provider store={store}>
+      <PaperProvider>
+        <Component {...props} />
+      </PaperProvider>
+    </Provider>
+  );
+  ComponentWithPropviders.displayName = `${Component.name}WithProviders`;
+
+  return ComponentWithPropviders;
+}
+
 export function registerScreens(store, Provider) {
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.navigation.dictionary',
+    () => withProviders(Provider, store)(Dictionary),
     () => Dictionary,
-    Provider,
-    store,
   );
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.navigation.dictionaries',
+    () => withProviders(Provider, store)(Dictionaries),
     () => Dictionaries,
-    Provider,
-    store,
   );
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.modal.dictionaryForm',
+    () => withProviders(Provider, store)(DictionaryForm),
     () => DictionaryForm,
-    Provider,
-    store,
   );
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.navigation.initializing',
+    () => withProviders(Provider, store)(Initializing),
     () => Initializing,
-    Provider,
-    store,
   );
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.navigation.sideMenu',
+    () => withProviders(Provider, store)(SideMenu),
     () => SideMenu,
-    Provider,
-    store,
   );
-  Navigation.registerComponentWithRedux(
+  Navigation.registerComponent(
     'dictach.navigation.signIn',
+    () => withProviders(Provider, store)(SignIn),
     () => SignIn,
-    Provider,
-    store,
   );
 }

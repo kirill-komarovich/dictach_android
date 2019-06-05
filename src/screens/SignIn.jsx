@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { View, Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { RaisedTextButton } from 'react-native-material-buttons';
+import { View, Keyboard, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { colors } from '@src/colors';
-import OutlinedInput from '@components/outlinedInput';
 import Loader from '@components/loader';
 import { signInUser } from '@src/actions/SessionActions';
 
@@ -15,7 +14,7 @@ class SignIn extends React.Component {
     password: '',
   }
 
-  onChangeText = (key, value) => this.setState({ [key]: value })
+  onChangeText = key => value => this.setState({ [key]: value })
 
   handleSubmit = () => {
     const { actions: { signInUser } } = this.props;
@@ -35,29 +34,36 @@ class SignIn extends React.Component {
         <View style={styles.container}>
           <View style={styles.fieldset}>
             <View style={styles.fieldsetContainer}>
-              <OutlinedInput
+              <TextInput
+                style={styles.input}
+                mode="outlined"
                 label="Email"
                 autoCapitalize="none"
-                onChangeText={(value) => this.onChangeText('email', value)}
+                onChangeText={this.onChangeText('email')}
                 value={email}
                 autoFocus
               />
-              <OutlinedInput
+              <TextInput
+                style={styles.input}
+                mode="outlined"
                 label="Password"
                 autoCapitalize="none"
                 secureTextEntry
-                onChangeText={(value) => this.onChangeText('password', value)}
+                onChangeText={this.onChangeText('password')}
                 value={password}
               />
             </View>
           </View>
-          <RaisedTextButton
+          <Button
+            mode="contained"
+            label="Sign In"
             style={styles.button}
-            title="Sign In"
             color={colors.primary}
             titleColor={colors.primaryText}
             onPress={this.handleSubmit}
-          />
+          >
+            Sign In
+          </Button>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -83,13 +89,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexGrow: 1,
   },
+  input: {
+    backgroundColor: colors.background,
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
   loader: {
     flex: 1,
     justifyContent: 'center',
   },
   touchable: {
     flex: 1,
-  }
+  },
 })
 
 SignIn.propTypes = {

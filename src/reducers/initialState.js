@@ -21,4 +21,8 @@ export default {
     loading: false,
     authenticated: false,
   },
+  words: {
+    loading: false,
+    errors: null,
+  },
 }

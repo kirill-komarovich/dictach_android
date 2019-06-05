@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { View, StyleSheet, Picker, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Picker,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
-import OutlinedInput from '@components/outlinedInput';
+import { TextInput, Button } from 'react-native-paper';
 import OutlinedSelect from '@components/outlinedSelect';
 import Loader from '@components/loader';
 import { createDictionary } from '@src/actions/DictionariesActions';
@@ -20,8 +25,11 @@ class DictionaryForm extends React.Component {
     this.state = {
       title: props.title,
       language: props.language,
+      menuVisible: false,
     }
   }
+
+  languageInputRef = React.createRef()
 
   onCancel = () => {
     const { componentId } = this.props;
@@ -40,11 +48,18 @@ class DictionaryForm extends React.Component {
     })
   }
 
-  onChangeField = (key, value) => this.setState({ [key]: value })
+  openMenu = () => {
+    this.languageInputRef.current.blur();
+    this.setState({ menuVisible: true });
+  }
+
+  closeMenu = () => this.setState({ menuVisible: false })
+
+  onChangeField = key => value => this.setState({ [key]: value })
 
   render() {
     const { edit, loading } = this.props;
-    const { title, language } = this.state;
+    const { title, language, menuVisible } = this.state;
     return loading ? (
       <View style={styles.loader}>
         <Loader styleAttr="Large" />
@@ -54,10 +69,12 @@ class DictionaryForm extends React.Component {
         <View style={styles.container}>
           <View style={styles.fieldset}>
             <View style={styles.fieldsetContainer}>
-              <OutlinedInput
+              <TextInput
+                mode="outlined"
+                style={styles.input}
                 label="Title"
                 autoCapitalize="none"
-                onChangeText={(value) => this.onChangeField('title', value)}
+                onChangeText={this.onChangeField('title')}
                 value={title}
                 autoFocus
               />
@@ -67,7 +84,7 @@ class DictionaryForm extends React.Component {
                     label="Language"
                     selectedValue={language}
                     style={styles.picker}
-                    onValueChange={(value) => this.onChangeField('language', value)}
+                    onValueChange={this.onChangeField('language')}
                   >
                     {
                       LANGUAGES.map((language) => (
@@ -80,20 +97,22 @@ class DictionaryForm extends React.Component {
             </View>
           </View>
           <View style={styles.buttons}>
-            <TextButton
+            <Button
               style={styles.button}
-              title="Cancel"
-              color={colors.background}
-              titleColor={colors.black}
+              color={colors.black}
               onPress={this.onCancel}
-            />
-            <RaisedTextButton
+            >
+              Cancel
+            </Button>
+            <Button
+              mode="contained"
               style={styles.button}
-              title="Submit"
               color={colors.primary}
               titleColor={colors.primaryText}
               onPress={this.onSubmit}
-            />
+            >
+              Submit
+            </Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -103,6 +122,7 @@ class DictionaryForm extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
+    height: 40,
     marginHorizontal: 40,
   },
   buttons: {
@@ -122,6 +142,11 @@ const styles = StyleSheet.create({
   fieldsetContainer: {
     flexDirection: 'column',
     flexGrow: 1,
+  },
+  input: {
+    backgroundColor: colors.background,
+    marginHorizontal: 10,
+    marginVertical: 5,
   },
   loader: {
     flex: 1,
