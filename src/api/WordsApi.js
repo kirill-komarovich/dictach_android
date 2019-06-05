@@ -20,7 +20,7 @@ class WordsApi {
     }
   }
 
-  async create(dictionaryId, { title }) {
+  async create(dictionaryId, { title, descriptions_attributes }) {
     const request = new Request(urls.words(dictionaryId), {
       method: methods.post,
       credentials: 'include',
@@ -30,6 +30,7 @@ class WordsApi {
       body: JSON.stringify({
         word: {
           title,
+          descriptions_attributes,
         }
       }),
     });

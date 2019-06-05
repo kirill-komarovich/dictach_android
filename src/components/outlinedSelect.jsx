@@ -66,12 +66,14 @@ class OutlinedSelect extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 8,
+    marginBottom: 8,
+    marginHorizontal: 10,
+    marginTop: 2,
     paddingTop: CHANGED_FONT_SIZE,
   },
   input: {
     fontSize: FONT_SIZE,
-    marginHorizontal: 24,
+    marginHorizontal: 6,
     paddingVertical: 18,
   },
   label: {

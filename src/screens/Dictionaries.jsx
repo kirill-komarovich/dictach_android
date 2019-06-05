@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { List, FAB } from 'react-native-paper';
+import EmptyList from '@components/emptyList';
+import ListFooter from '@components/listFooter';
 import Loader from '@components/loader';
 import { fetchAllDictionaries, refreshAllDictionaries } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
@@ -84,15 +86,6 @@ class Dictionaries extends React.Component {
     });
   }
 
-  renderListFooter = () => {
-    const { dictionaries: { loading } } = this.props;
-    return loading ? (
-      <Loader style={styles.loader} styleAttr="Normal" />
-    ) : (
-      <View style={styles.footer} />
-    )
-  }
-
   renderListItem = ({ item: { id, title } }) => (
     <List.Item title={title} onPress={this.onItemPress(id)} />
   )
@@ -109,7 +102,7 @@ class Dictionaries extends React.Component {
   }
 
   render() {
-    const { dictionaries: { all: dictionaries } } = this.props;
+    const { dictionaries: { all: dictionaries, loading } } = this.props;
     const { refreshing } = this.state;
     return refreshing ? (
       <View style={styles.container}>
@@ -121,7 +114,12 @@ class Dictionaries extends React.Component {
           data={dictionaries}
           renderItem={this.renderListItem}
           keyExtractor={({ id }) => id.toString()}
-          ListFooterComponent={this.renderListFooter()}
+          ListEmptyComponent={
+            <EmptyList message="You don`t have any dictionaries yet" />
+          }
+          ListFooterComponent={
+            <ListFooter loading={loading} />
+          }
           refreshing={refreshing}
           onRefresh={this.handleRefresh}
           onEndReached={this.handleLoadMore}
@@ -143,12 +141,6 @@ const styles = StyleSheet.create({
     bottom: 10,
     position: 'absolute',
     right: 20,
-  },
-  footer: {
-    marginBottom: 80,
-  },
-  loader: {
-    marginVertical: 10,
   },
 });
 

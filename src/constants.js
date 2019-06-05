@@ -1,0 +1,28 @@
+export const PARTS_OF_SPEECH = {
+  en: [
+    'noun',
+    'verb',
+    'adjective',
+    'numeral',
+    'pronoun',
+    'adverb',
+    'article',
+    'preposition',
+    'conjunction',
+    'interjection',
+  ],
+  ru: [
+    'noun',
+    'verb',
+    'adjective',
+    'numeral',
+    'pronoun',
+    'participle',
+    'verbal_adverb',
+    'adverb',
+    'preposition',
+    'conjunction',
+    'particle',
+    'interjection',
+  ],
+};

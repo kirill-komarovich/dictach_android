@@ -30,6 +30,7 @@ class DictionaryForm extends React.Component {
 
   onCancel = () => {
     const { componentId } = this.props;
+    Keyboard.dismiss();
     Navigation.dismissModal(componentId);
   }
 
