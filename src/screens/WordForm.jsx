@@ -14,7 +14,7 @@ import { TextInput, Button } from 'react-native-paper';
 import Swipeout from 'react-native-swipeout';
 import Loader from '@components/loader';
 import DescriptionForm from '@components/descriptionForm';
-import { createWord } from '@src/actions/WordsActions';
+import { resetLoading } from '@src/actions/WordsActions';
 import { colors } from '@src/colors';
 import { PARTS_OF_SPEECH } from '@src/constants';
 
@@ -31,8 +31,10 @@ class WordForm extends React.Component {
 
     this.state = {
       title: props.title,
-      descriptions: [],
-    }
+      descriptions: props.descriptions,
+    };
+
+    props.actions.resetLoading();
   }
 
   onCancel = () => {
@@ -42,11 +44,11 @@ class WordForm extends React.Component {
   }
 
   onSubmit = () => {
-    const { dictionaryId, actions: { createWord } } = this.props;
+    const { dictionaryId, onSubmit } = this.props;
     const { title, descriptions } = this.state;
 
     const word = { title, descriptions_attributes: descriptions };
-    createWord(dictionaryId, word).then(() => {
+    onSubmit(dictionaryId, word).then(() => {
       const { errors, afterSubmit } = this.props;
       Keyboard.dismiss();
       if (!errors) {
@@ -224,7 +226,6 @@ const styles = StyleSheet.create({
 WordForm.propTypes = {
   componentId: PropTypes.string.isRequired,
   title: PropTypes.string,
-  edit: PropTypes.bool,
   errors: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   afterSubmit: PropTypes.func,
@@ -235,13 +236,13 @@ WordForm.propTypes = {
 
 WordForm.defaultProps = {
   title: '',
-  edit: false,
+  descriptions: [],
   afterSubmit: () => null,
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ createWord }, dispatch)
+    actions: bindActionCreators({ resetLoading }, dispatch)
   };
 }
 

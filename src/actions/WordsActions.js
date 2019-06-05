@@ -78,3 +78,9 @@ export function destroyWord(dictionaryId, id) {
     }
   };
 }
+
+export function resetLoading() {
+  return async function(dispatch) {
+    dispatch({ type: types.RESET_LOADING })
+  }
+}

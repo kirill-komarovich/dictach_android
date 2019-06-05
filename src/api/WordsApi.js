@@ -64,7 +64,7 @@ class WordsApi {
     }
   }
 
-  async update(dictionaryId, { id, title }) {
+  async update(dictionaryId, { id, title, descriptions_attributes }) {
     const request = new Request(urls.word(dictionaryId, id), {
       method: methods.put,
       credentials: 'include',
@@ -74,6 +74,7 @@ class WordsApi {
       body: JSON.stringify({
         word: {
           title,
+          descriptions_attributes,
         }
       }),
     });

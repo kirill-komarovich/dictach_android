@@ -12,11 +12,16 @@ function wordReducer(state = initialState.word, action) {
       errors: false,
       loading: true,
     };
-  case types.CREATE_WORD_SUCCESS:
+  case types.RESET_LOADING:
     return {
       ...state,
       loading: false,
     };
+  // case types.CREATE_WORD_SUCCESS:
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //   };
   case types.FETCH_WORD_SUCCESS:
   case types.UPDATE_WORD_SUCCESS:
     return {

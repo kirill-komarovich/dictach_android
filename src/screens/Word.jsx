@@ -8,9 +8,10 @@ import Loader from '@components/loader';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
 import Description from '@components/description';
-import { fetchWord, destroyWord } from '@src/actions/WordsActions';
+import { fetchWord, destroyWord, updateWord } from '@src/actions/WordsActions';
 import { fetchDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
+import { openModal } from '@src/navigation';
 import { DEFAULT_RIGHT_BUTTONS_OPTIONS } from '@src/constants';
 
 
@@ -41,29 +42,68 @@ class Word extends React.Component {
         break;
     }
   }
-
-  componentDidMount() {
-    this.fetchWord(() => {
-      const { componentId, dictionaryTitle, word: { title } } = this.props;
+  updateNavigationTitle = () => {
+    const { componentId, dictionaryTitle, word: { title } } = this.props;
       Navigation.mergeOptions(componentId, {
         topBar: {
           title: {
             text: `${dictionaryTitle} / ${title}`,
           },
         },
-      })
-    });
+      });
   }
 
-  onRefresh = () => {
+
+  componentDidMount() {
+    this.fetchWord(this.updateNavigationTitle);
+  }
+
+  onRefresh = (callback = () => null) => {
     this.setState({ refreshing: true }, () => {
-      this.fetchWord(() => this.setState({ refreshing: false }));
+      this.fetchWord(() => {
+        callback();
+        this.setState({ refreshing: false })
+      });
     })
   }
 
   fetchWord = (callback = () => null ) => {
     const { actions: { fetchWord }, dictionaryId, wordId } = this.props;
     fetchWord(dictionaryId, wordId).then(callback);
+  }
+
+  handleAfterUpdate = () => {
+    const { actions: { fetchDictionary } } = this.props;
+    fetchDictionary();
+    this.onRefresh(this.updateNavigationTitle)
+  }
+
+  handleEdit = () => {
+    const {
+      dictionaryId,
+      language,
+      word: { id, title, descriptions },
+      actions: { updateWord },
+    } = this.props;
+
+    openModal(
+      'dictach.modal.wordForm',
+      {
+        topBar: {
+          title: {
+            text: 'Add Word',
+          }
+        }
+      },
+      {
+        title,
+        descriptions,
+        dictionaryId,
+        language,
+        afterSubmit: this.handleAfterUpdate,
+        onSubmit: (dictionaryId, word) => updateWord(dictionaryId, { ...word, id }),
+      },
+    );
   }
 
   handleDelete = () => {
@@ -144,18 +184,19 @@ Word.propTypes = {
   }).isRequired,
 };
 
-function mapStateToProps( { word: { loading, ...word }, dictionary: { id, title } }) {
+function mapStateToProps( { word: { loading, ...word }, dictionary: { id, title, language } }) {
   return {
     word,
     loading,
     dictionaryId: id,
     dictionaryTitle: title,
+    language,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchWord, destroyWord, fetchDictionary }, dispatch)
+    actions: bindActionCreators({ fetchWord, destroyWord, fetchDictionary, updateWord }, dispatch)
   };
 }
 

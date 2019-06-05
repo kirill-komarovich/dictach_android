@@ -10,6 +10,7 @@ import WordsList from '@components/wordsList';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
 import { fetchDictionary, destroyDictionary, updateDictionary } from '@src/actions/DictionariesActions';
+import { createWord } from '@src/actions/WordsActions';
 import { colors } from '@src/colors';
 import { openModal } from '@src/navigation';
 import { DEFAULT_RIGHT_BUTTONS_OPTIONS } from '@src/constants';
@@ -54,9 +55,7 @@ class Dictionary extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchDictionary(() => {
-      this.updateNavigationTitle();
-    });
+    this.fetchDictionary(this.updateNavigationTitle);
   }
 
   onRefresh = (callback = () => null) => {
@@ -74,7 +73,7 @@ class Dictionary extends React.Component {
   }
 
   openFormModal = () => {
-    const { dictionaryId, dictionary: { language } } = this.props;
+    const { dictionaryId, dictionary: { language }, actions: { createWord } } = this.props;
 
     openModal(
       'dictach.modal.wordForm',
@@ -89,6 +88,7 @@ class Dictionary extends React.Component {
         dictionaryId,
         language,
         afterSubmit: this.onRefresh,
+        onSubmit: createWord,
       },
     );
   }
@@ -219,7 +219,12 @@ function mapStateToProps( { dictionary: { loading, ...dictionary} }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchDictionary, destroyDictionary, updateDictionary }, dispatch)
+    actions: bindActionCreators({
+      fetchDictionary,
+      destroyDictionary,
+      updateDictionary,
+      createWord,
+    }, dispatch)
   };
 }
 
