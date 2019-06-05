@@ -86,6 +86,7 @@ class Dictionaries extends React.Component {
         name: 'dictach.navigation.dictionary',
         passProps: {
           dictionaryId: id,
+          onDeleteCallback: this.handleRefresh,
         },
       },
     })

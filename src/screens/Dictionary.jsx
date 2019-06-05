@@ -9,13 +9,37 @@ import Loader from '@components/loader';
 import WordsList from '@components/wordsList';
 import EmptyList from '@components/emptyList';
 import ListFooter from '@components/listFooter';
-import { fetchDictionary } from '@src/actions/DictionariesActions';
+import { fetchDictionary, destroyDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
 import { openModal } from '@src/navigation';
+import { DEFAULT_RIGHT_BUTTONS_OPTIONS } from '@src/constants';
 
 class Dictionary extends React.Component {
-  state = {
-    refreshing: false,
+  static options() {
+    return {
+      topBar: DEFAULT_RIGHT_BUTTONS_OPTIONS,
+    }
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      refreshing: false,
+    };
+
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    switch(buttonId) {
+      case 'delete':
+        this.handleDelete();
+        break;
+      case 'edit':
+        this.handleEdit();
+        break;
+    }
   }
 
   componentDidMount() {
@@ -60,6 +84,20 @@ class Dictionary extends React.Component {
         afterSubmit: this.onRefresh,
       },
     );
+  }
+
+  handleDelete = () => {
+    const {
+      componentId,
+      dictionaryId,
+      onDeleteCallback,
+      actions: { destroyDictionary }
+    } = this.props;
+
+    destroyDictionary(dictionaryId).then(() => {
+      onDeleteCallback();
+      Navigation.pop(componentId);
+    });
   }
 
   renderListItem = ({ item: letter }) => {
@@ -149,7 +187,7 @@ function mapStateToProps( { dictionary: { loading, ...dictionary} }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchDictionary }, dispatch)
+    actions: bindActionCreators({ fetchDictionary, destroyDictionary }, dispatch)
   };
 }
 

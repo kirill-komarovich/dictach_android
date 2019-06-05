@@ -1,3 +1,5 @@
+import { colors } from '@src/colors';
+
 export const PARTS_OF_SPEECH = {
   en: [
     'noun',
@@ -24,5 +26,21 @@ export const PARTS_OF_SPEECH = {
     'conjunction',
     'particle',
     'interjection',
+  ],
+};
+
+export const DEFAULT_RIGHT_BUTTONS_OPTIONS = {
+  rightButtonColor: colors.white,
+  rightButtons: [
+    {
+      id: 'delete',
+      text: 'Delete',
+      showAsAction: 'never',
+    },
+    {
+      id: 'edit',
+      text: 'Edit',
+      showAsAction: 'never',
+    },
   ],
 };

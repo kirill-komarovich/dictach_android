@@ -63,6 +63,25 @@ class DictionariesApi {
       return error;
     }
   }
+
+  async destroy(id) {
+    const request = new Request(urls.dictionary(id), {
+      method: methods.delete,
+      credentials: 'include',
+      headers: new Headers({
+        ...headers.accept.json,
+      }),
+    });
+
+    try {
+      const response = await fetch(request);
+      return response.json();
+    }
+
+    catch (error) {
+      return error;
+    }
+  }
 }
 
 export default DictionariesApi;

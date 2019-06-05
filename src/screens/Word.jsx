@@ -11,27 +11,13 @@ import Description from '@components/description';
 import { fetchWord, destroyWord } from '@src/actions/WordsActions';
 import { fetchDictionary } from '@src/actions/DictionariesActions';
 import { colors } from '@src/colors';
+import { DEFAULT_RIGHT_BUTTONS_OPTIONS } from '@src/constants';
 
-const RIGHT_BUTTONS_OPTIONS = {
-  rightButtonColor: colors.white,
-  rightButtons: [
-    {
-      id: 'delete',
-      text: 'Delete',
-      showAsAction: 'never',
-    },
-    {
-      id: 'edit',
-      text: 'Edit',
-      showAsAction: 'never',
-    },
-  ],
-};
 
 class Word extends React.Component {
   static options() {
     return {
-      topBar: RIGHT_BUTTONS_OPTIONS,
+      topBar: DEFAULT_RIGHT_BUTTONS_OPTIONS,
     }
   }
 

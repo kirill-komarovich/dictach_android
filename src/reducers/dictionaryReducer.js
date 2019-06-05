@@ -5,6 +5,7 @@ function dictionaryReducer(state = initialState.dictionary, action) {
   switch(action.type) {
   case types.FETCH_DICTIONARY_BEGIN:
   case types.CREATE_DICTIONARY_BEGIN:
+  case types.DESTROY_DICTIONARY_BEGIN:
     return {
       ...state,
       errors: false,
@@ -19,7 +20,8 @@ function dictionaryReducer(state = initialState.dictionary, action) {
     };
   case types.FETCH_DICTIONARY_FAILURE:
   case types.CREATE_DICTIONARY_FAILURE:
-    return {
+  case types.DESTROY_DICTIONARY_FAILURE:
+      return {
       ...state,
       errors: true,
       loading: false,
