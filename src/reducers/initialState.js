@@ -32,4 +32,5 @@ export default {
     loading: false,
     errors: false,
   },
+  notifications: [],
 }

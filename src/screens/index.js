@@ -9,11 +9,13 @@ import DictionaryForm from './DictionaryForm';
 import Word from './Word';
 import WordForm from './WordForm';
 import SideMenu from './SideMenu';
+import Notifier from '@components/notifier';
 
 const withProviders = (Provider, store) => Component => {
   const ComponentWithPropviders = props => (
     <Provider store={store}>
       <PaperProvider>
+        <Notifier />
         <Component {...props} />
       </PaperProvider>
     </Provider>

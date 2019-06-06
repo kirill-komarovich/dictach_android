@@ -1,10 +1,12 @@
 import * as types from '@src/actionTypes/dictionaries';
 import DictionariesApi from '@src/api/DictionariesApi';
+import { showErrors, closeBanner } from './NotificationsActions';
 
 export function fetchAllDictionaries(page, rowsPerPage, order, direction) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.FETCH_ALL_DICTIONARIES_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.fetchAll(page, rowsPerPage, order, direction);
     if (!response.errors) {
       dispatch({
@@ -15,6 +17,7 @@ export function fetchAllDictionaries(page, rowsPerPage, order, direction) {
       });
     } else {
       dispatch({ type: types.FETCH_ALL_DICTIONARIES_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -23,6 +26,7 @@ export function refreshAllDictionaries(page, rowsPerPage, order, direction) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.REFRESH_ALL_DICTIONARIES_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.fetchAll(page, rowsPerPage, order, direction);
     if (!response.errors) {
       dispatch({
@@ -33,6 +37,7 @@ export function refreshAllDictionaries(page, rowsPerPage, order, direction) {
       });
     } else {
       dispatch({ type: types.REFRESH_ALL_DICTIONARIES_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -41,6 +46,7 @@ export function fetchDictionary(id) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.FETCH_DICTIONARY_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.fetch(id);
     if (!response.errors) {
       dispatch({
@@ -49,6 +55,7 @@ export function fetchDictionary(id) {
       });
     } else {
       dispatch({ type: types.FETCH_DICTIONARY_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -57,11 +64,13 @@ export function createDictionary(dictionary) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.CREATE_DICTIONARY_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.create(dictionary);
     if (!response.errors) {
       dispatch({ type: types.CREATE_DICTIONARY_SUCCESS });
     } else {
       dispatch({ type: types.CREATE_DICTIONARY_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -70,11 +79,13 @@ export function updateDictionary(id, dictionary) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.UPDATE_DICTIONARY_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.update(id, dictionary);
     if (!response.errors) {
       dispatch({ type: types.UPDATE_DICTIONARY_SUCCESS, dictionary: response });
     } else {
       dispatch({ type: types.UPDATE_DICTIONARY_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -84,6 +95,7 @@ export function destroyDictionary(id) {
   const dictionariesApi = new DictionariesApi();
   return async function(dispatch) {
     dispatch({ type: types.DESTROY_DICTIONARY_BEGIN });
+    dispatch(closeBanner())
     const response = await dictionariesApi.destroy(id);
     if (!response.errors) {
       dispatch({
@@ -92,6 +104,7 @@ export function destroyDictionary(id) {
       });
     } else {
       dispatch({ type: types.DESTROY_DICTIONARY_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }

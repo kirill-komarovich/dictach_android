@@ -1,19 +1,18 @@
 import * as types from '@src/actionTypes/session';
 import SessionApi from '@src/api/SessionApi';
-
-export function signInFailure(errors) {
-  return {type: types.SIGN_IN_FAILURE, errors}
-}
+import { showErrors, closeBanner } from './NotificationsActions';
 
 export function signInUser(credentials) {
   const sessionApi = new SessionApi();
   return async function(dispatch) {
     dispatch({ type: types.SIGN_IN_BEGIN });
+    dispatch(closeBanner())
     const response = await sessionApi.signin(credentials)
-    if (!response.error) {
+    if (!response.errors) {
       dispatch({ type: types.SIGN_IN_SUCCESS });
     } else {
-      dispatch(signInFailure([response.error]));
+      dispatch({ type: types.SIGN_IN_FAILURE });
+      dispatch(showErrors(response.errors));
     }
   };
 }
@@ -22,14 +21,14 @@ export function signOutUser() {
   const sessionApi = new SessionApi();
   return async function(dispatch) {
     dispatch({ type: types.SIGN_OUT_BEGIN });
-    await sessionApi.signout();
-    dispatch({ type: types.SIGN_OUT_SUCCESS });
-  };
-}
-
-export function freeSessionErrors() {
-  return function(dispatch) {
-    dispatch({ type: types.FREE_SESSION_ERRORS });
+    dispatch(closeBanner())
+    const response = await sessionApi.signout();
+    if (!response.errors) {
+      dispatch({ type: types.SIGN_OUT_SUCCESS });
+    } else {
+      dispatch({ type: types.SIGN_OUT_FAILURE });
+      dispatch(showErrors(response.errors));
+    }
   };
 }
 

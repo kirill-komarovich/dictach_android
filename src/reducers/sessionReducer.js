@@ -28,7 +28,7 @@ function sessionReducer(state = initialState.session, action) {
     case types.SIGN_IN_FAILURE:
       return {
         ...state,
-        errors: action.errors,
+        errors: true,
         authenticated: false,
         loading: false,
       };
