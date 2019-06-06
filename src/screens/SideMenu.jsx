@@ -1,53 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, FlatList } from 'react-native';
-import ListItem from '@components/listItem';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { signOutUser } from '@src/actions/SessionActions';
 import { colors } from '@src/colors';
 
-class SideMenu extends React.Component {
-  
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      choosenId: 1,
-    };
-  }
-
-  renderListItem = ({ item: { id, title } }) => (
-    <ListItem style={{ backgroundColor: this.state.choosenId === id ? colors.selectedListItem 
-      : colors.background }} title={title}
-     onPress={() => this.listItemPressed(id)} />
-  )
-
-  listItemPressed = (id) => {
-    this.setState({ choosenId: id });
-  }
-
-  render() {
-    const { optionTitles } = this.props;
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={optionTitles}
-          renderItem={this.renderListItem}
-          extraData={this.state}
-        />
-      </View>
-    );
-  }
-}
+const SideMenu = ({ actions: { signOutUser } }) => (
+  <View style={styles.container}>
+    <Button style={styles.button} onPress={signOutUser}>Sign out</Button>
+  </View>
+);
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
+  },
   container: {
     backgroundColor: colors.background,
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
 });
 
 SideMenu.propTypes = {
-  optionTitles: PropTypes.any.isRequired
 };
 
-export default (SideMenu);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ signOutUser }, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(SideMenu);
